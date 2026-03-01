@@ -1,0 +1,10 @@
+# すべてを除外し、必要なものだけ追跡
+*
+# 追跡対象
+!.gitignore
+!settings.json
+!statusline.py
+!skills/
+!skills/**
+!agents/
+!agents/**

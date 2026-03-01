@@ -1,0 +1,6 @@
+# Claude Code が自動生成するローカル設定（Git 管理外）
+# ※ .claude/.gitignore のホワイトリストでも除外済み
+.claude/settings.local.json
+
+# macOS
+.DS_Store
