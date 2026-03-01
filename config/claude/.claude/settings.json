@@ -61,13 +61,8 @@
       "Bash(npm ls *)",
       "Bash(npm list *)",
       "Bash(yarn run *)",
-      "Bash(pnpm run *)"
+      "Bash(pnpm run *)",
+      "mcp__pencil"
     ]
-  },
-  "mcpServers": {
-    "deepwiki": {
-      "type": "http",
-      "url": "https://mcp.deepwiki.com/mcp"
-    }
   }
 }
