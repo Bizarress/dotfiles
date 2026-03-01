@@ -62,6 +62,18 @@
       "Bash(npm list *)",
       "Bash(yarn run *)",
       "Bash(pnpm run *)",
+      "Bash(rtk git status)",
+      "Bash(rtk git status *)",
+      "Bash(rtk git diff)",
+      "Bash(rtk git diff *)",
+      "Bash(rtk git log)",
+      "Bash(rtk git log *)",
+      "Bash(rtk git add *)",
+      "Bash(rtk git commit *)",
+      "Bash(rtk git push)",
+      "Bash(rtk git push *)",
+      "Bash(rtk ls)",
+      "Bash(rtk ls *)",
       "mcp__pencil"
     ]
   }
