@@ -191,13 +191,30 @@ cargo --version   # 例: cargo 1.78.0 (...)
 
 ```sh
 cargo install --git https://github.com/rtk-ai/rtk
-rtk gain
 ```
 
 > `~/.cargo/bin` が `PATH` に含まれていない場合は `source ~/.cargo/env` を実行するか、
 > `~/.bashrc` / `~/.bash_profile` に `source ~/.cargo/env` を追記する。
 
-### 3. 動作確認・トークン節約統計
+### 3. rtk を Claude Code に登録する
+
+```sh
+rtk init -g
+```
+
+`-g` / `--global` オプションを付けることで、全プロジェクト共通の `~/.claude/CLAUDE.md` に RTK の使用指示が書き込まれる。
+省略すると現在のプロジェクトの `CLAUDE.md` にのみ適用される。
+
+> オプション一覧:
+>
+> | フラグ | 説明 |
+> | --- | --- |
+> | `-g`, `--global` | グローバル設定（`~/.claude/CLAUDE.md`）に追加 |
+> | `--auto-patch` | `settings.json` を自動パッチ（確認なし） |
+> | `--no-patch` | `settings.json` の変更をスキップ（手動手順を出力） |
+> | `--uninstall` | RTK のすべての設定を削除 |
+
+### 4. 動作確認・トークン節約統計
 
 ```sh
 rtk gain           # トークン節約の統計を表示
