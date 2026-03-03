@@ -102,6 +102,26 @@ def main():
             print("Claude", end="")
             return
         
+        # Fix invalid JSON escape sequences (e.g. Windows paths like \slidev → \\slidev)
+        valid_escapes = {'"', '\\', '/', 'b', 'f', 'n', 'r', 't', 'u'}
+        fixed = []
+        i = 0
+        while i < len(input_text):
+            c = input_text[i]
+            if c == '\\' and i + 1 < len(input_text):
+                next_c = input_text[i + 1]
+                if next_c in valid_escapes:
+                    fixed.append(c)
+                    fixed.append(next_c)
+                    i += 2
+                else:
+                    fixed.append('\\\\')
+                    i += 1
+            else:
+                fixed.append(c)
+                i += 1
+        input_text = ''.join(fixed)
+
         data = json.loads(input_text)
         
         model_info = data.get("model") or {}
