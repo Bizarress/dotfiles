@@ -6,6 +6,7 @@ Claude Code StatusLine Script - Design 4: Dashboard Style (Fixed)
 
 import sys
 import json
+import os
 from pathlib import Path
 import io
 import re
@@ -141,14 +142,30 @@ def main():
         pct_used = round((current / size) * 100) if size > 0 else 0
         pct_remain = 100 - pct_used
         
-        thinking_on = False
-        settings_path = Path.home() / ".claude" / "settings.json"
-        if settings_path.exists():
-            try:
-                settings = json.loads(settings_path.read_text())
-                thinking_on = settings.get("alwaysThinkingEnabled", False)
-            except:
-                pass
+        # Effort Level: 環境変数が最優先
+        effort = os.environ.get("CLAUDE_CODE_EFFORT_LEVEL", "").strip().lower()
+
+        # フォールバック: settings.json
+        if effort not in ("low", "medium", "high"):
+            settings_path = Path.home() / ".claude" / "settings.json"
+            if settings_path.exists():
+                try:
+                    settings = json.loads(settings_path.read_text(encoding="utf-8"))
+                    effort = settings.get("effortLevel", "medium").lower()
+                    if settings.get("alwaysThinkingEnabled", False):
+                        effort = "high"
+                except:
+                    pass
+
+        if effort not in ("low", "medium", "high"):
+            effort = "medium"
+
+        EFFORT_COLORS = {"low": DIM, "medium": CYAN, "high": ORANGE}
+        effort_color = EFFORT_COLORS.get(effort, CYAN)
+
+        # キャッシュヒット率
+        cache_hit_pct = round((cache_read / current) * 100) if current > 0 else 0
+        show_cache = cache_hit_pct >= 5
         
         bar = build_dashboard_bar(pct_used, 15)
         usage_color = get_usage_color(pct_used)
@@ -165,7 +182,7 @@ def main():
         # Line 2: Model info
         line2_content = f"│ {CYAN}{model_name}{RESET}  "
         line2_content += f"{DIM}tokens:{RESET} {BOLD}{usage_color}{used_tokens}{RESET}{DIM}/{total_tokens}{RESET}  "
-        line2_content += f"{DIM}think:{RESET} {BOLD}{ORANGE if thinking_on else DIM}{'ON' if thinking_on else 'OFF'}{RESET} "
+        line2_content += f"{DIM}effort:{RESET} {BOLD}{effort_color}{effort}{RESET} "
         line2 = pad_line(line2_content, box_width) + "│"
 
         # Line 3: Middle border with USAGE label
@@ -174,7 +191,11 @@ def main():
         line3 = line3_left + line3_dashes + "┤"
 
         # Line 4: Usage bar
-        line4_content = f"│ {bar} {BOLD}{usage_color}{pct_used}%{RESET} used  {DIM}│{RESET}  {BOLD}{remain_color}{pct_remain}%{RESET} remain "
+        line4_content = f"│ {bar} {BOLD}{usage_color}{pct_used}%{RESET} used  {DIM}│{RESET}  {BOLD}{remain_color}{pct_remain}%{RESET} remain"
+        if show_cache:
+            cache_color = GREEN if cache_hit_pct >= 30 else CYAN
+            line4_content += f"  {DIM}cache:{RESET} {BOLD}{cache_color}{cache_hit_pct}%{RESET}"
+        line4_content += " "
         line4 = pad_line(line4_content, box_width) + "│"
         
         # Line 5: Bottom border
