@@ -1,38 +1,4 @@
 {
-  "enabledPlugins": {
-    "skill-creator@claude-plugins-official": true
-  },
-  "model": "sonnet",
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "powershell -ExecutionPolicy RemoteSigned -Command \"Import-Module BurntToast; New-BurntToastNotification -Text 'ClaudeCode', 'The process is complete' -Sound Default\""
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "matcher": "permission_prompt",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "powershell -ExecutionPolicy RemoteSigned -Command \"Import-Module BurntToast; New-BurntToastNotification -Text 'ClaudeCode', 'Claude Code has requested confirmation' -Sound Default\""
-          }
-        ]
-      }
-    ]
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "python ~/.claude/statusline.py"
-  },
-  "autoUpdatesChannel": "latest",
-  "language": "japanese",
   "permissions": {
     "allow": [
       "Bash(git status)",
@@ -97,5 +63,50 @@
       "Bash(rtk kubectl *)",
       "mcp__pencil"
     ]
-  }
+  },
+  "model": "sonnet",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -ExecutionPolicy RemoteSigned -Command \"Import-Module BurntToast; New-BurntToastNotification -Text 'ClaudeCode', 'The process is complete' -Sound Default\""
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -ExecutionPolicy RemoteSigned -Command \"Import-Module BurntToast; New-BurntToastNotification -Text 'ClaudeCode', 'Claude Code has requested confirmation' -Sound Default\""
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "python ~/.claude/statusline.py"
+  },
+  "enabledPlugins": {
+    "skill-creator@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "playground@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true
+  },
+  "language": "japanese",
+  "autoUpdatesChannel": "latest",
+  "voiceEnabled": true
 }
